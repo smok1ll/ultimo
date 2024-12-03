@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="t1">
+    <ion-title>Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Perfil</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <hr>
+  <hr>
+  <hr>
+  <hr>
+  <hr>
+  <hr>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Mi perfil</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label>Email: {{ email }}</ion-label>
+        </ion-item>
+        <ion-button id="button" color="primary"  shape="round" expand="block" (click)="changeEmail(email)">Cambiar Correo</ion-button>
+        <ion-item>
+          <ion-label>Contraseña {{ password }}</ion-label>
+        </ion-item>
+        <ion-button id="button" color="primary"  shape="round" expand="block" (click)="changePassword(password)">Cambiar Contraseña</ion-button>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <ion-button id="button" (click)="logout()" color="primary" expand="block" shape="round">
+    Cerrar Sesion
+  </ion-button>
+</ion-content>

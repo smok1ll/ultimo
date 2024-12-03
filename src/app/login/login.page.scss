@@ -1,0 +1,59 @@
+ion-item{
+    padding-top: 5vh;
+
+}
+
+ion-fab{
+    padding-left: 35vh;
+}
+
+-ion-border-color{
+	color: aliceblue;
+}
+
+#container {
+	text-align: center;
+
+	position: relative;
+	left: 0;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+#container h1 {
+	font-family: 'SourceSans3-Regular';
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+#container strong {
+	font-size: 18px;
+	line-height: 26px;
+}
+
+#container p {
+	font-size: 16px;
+	line-height: 22px;
+
+	color: #8c8c8c;
+
+	margin: 0;
+}
+
+#container a {
+	text-decoration: none;
+}
+
+#search-book-icon {
+	zoom: 4.0;
+}
+
+#app-icon {
+	border-radius: 10%;
+	width: 100px;
+}
+
+#main-title {
+	font-size: medium;
+}

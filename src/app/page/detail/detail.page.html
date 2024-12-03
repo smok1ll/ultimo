@@ -1,0 +1,110 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ book.volumeInfo?.title }}</ion-title>
+    <ion-progress-bar type="indeterminate" *ngIf="isLoading"></ion-progress-bar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ book.volumeInfo?.title }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <h1 id="book-title">{{ book.volumeInfo?.title }}</h1>
+  <h2 id="book-subtitle">{{ book.volumeInfo?.subtitle }}</h2>
+
+  <ion-grid>
+    <ion-row class="ion-align-items-start">
+
+      <ion-col id="col-book-cover" size="auto">
+        <div *ngIf="book.volumeInfo?.imageLinks?.small; else imgFallback">
+          <img id="img-book-cover" src="{{ book.volumeInfo?.imageLinks?.small }}" alt="book cover image" />
+        </div>
+        <!-- if larger cover image is not included in the API response, the thumbnail will be shown instead -->
+        <ng-template #imgFallback>
+          <img id="img-book-cover" src="{{ book.volumeInfo?.imageLinks?.thumbnail }}" alt="book cover image" />
+        </ng-template>
+
+        <p id="page-count">{{ book.volumeInfo?.pageCount }} paginas</p>
+      </ion-col>
+
+      <ion-col>
+        <strong id="authors-heading">{{ (book.volumeInfo?.authors?.length == 1) ? 'Autor' : 'Authors' }}: </strong>
+        <div *ngFor="let author of book.volumeInfo?.authors">
+          <h3 id="authors">{{ author }}</h3>
+        </div>
+        <br />
+
+        <strong>Publicado: </strong>
+        <h4 id="published-date">{{ book.volumeInfo?.publishedDate }}</h4>
+        <p *ngIf="!book.volumeInfo?.authors">No authors are known for this book.</p>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+  <hr />
+
+  <strong>Categorias: </strong>
+  <p>{{ book.volumeInfo?.categories?.join(', ') }}</p>
+
+  <p><strong>Lenguaje: </strong>{{ getLanguageName(book.volumeInfo?.language) }}</p>
+
+  <div *ngIf="book.volumeInfo?.dimensions?.height">
+    <p>
+      <strong>Dimensiones: </strong>
+      {{ book.volumeInfo?.dimensions?.height }} × {{ book.volumeInfo?.dimensions?.width }} × {{
+      book.volumeInfo?.dimensions?.thickness }}
+    </p>
+
+  </div>
+
+  <strong>Editorial: </strong>
+  <h4 id="publisher-name">{{ book.volumeInfo?.publisher }}</h4>
+
+  <div *ngIf="book.volumeInfo?.industryIdentifiers">
+    <strong>Identificador: </strong>
+    <div *ngFor="let identifier of book.volumeInfo?.industryIdentifiers">
+      <p id="isbn">{{ identifier.type }}: {{ identifier.identifier }}</p>
+    </div>
+  </div>
+
+  <div id="read-buy-links" *ngIf="book.accessInfo?.accessViewStatus != 'NONE'">
+    <hr />
+    <a href="{{ book.accessInfo?.webReaderLink }}"><strong>Read {{ accessViewStatus }} online</strong></a>
+    &nbsp;&nbsp;&nbsp;
+
+    <span *ngIf="book.saleInfo?.buyLink">
+      <span *ngIf="book.saleInfo?.retailPrice?.amount">
+        <a target="_blank" href="{{ book.saleInfo?.buyLink }}"><strong>Buy for {{ book.saleInfo?.retailPrice?.amount }} {{
+            book.saleInfo?.retailPrice?.currencyCode }}</strong></a>
+      </span>
+      <span *ngIf="book.saleInfo?.saleability == 'FREE'">
+        <a target="_blank" href="{{ book.saleInfo?.buyLink }}"><strong>Get for free</strong></a>
+      </span>
+
+    </span>
+  </div>
+
+  <hr />
+
+  <strong>Descripcion: </strong>
+  <!-- Renders HTML tags included in description data from the API -->
+  <p [innerHTML]="book.volumeInfo?.description"></p>
+
+  <hr />
+
+  <div id="div-library-button">
+    <ion-button color="warning" *ngIf="(!isSaved)" (click)="addToLibrary()"><ion-icon
+        name="bookmark-outline"></ion-icon> &nbsp;Agregar a libreria</ion-button>
+    <ion-button color="danger" *ngIf="(isSaved)" (click)="removeFromLibrary()"><ion-icon
+        name="remove-circle-outline"></ion-icon> &nbsp;Eliminar de libreria</ion-button>
+    <ion-button (click)="basicshare()">compartir</ion-button>
+  </div>
+
+</ion-content>

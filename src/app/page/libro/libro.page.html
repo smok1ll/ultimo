@@ -1,0 +1,74 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Mi Libreria - {{ allSavedBooks.length }} {{ (allSavedBooks.length == 1) ? 'book' : 'libros' }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button id="clearall-button">LIMPIAR TODO</ion-button>
+    </ion-buttons>
+    <ion-progress-bar type="indeterminate" *ngIf="isLoading"></ion-progress-bar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-alert trigger="clearall-button" header="Limpiar Libreria" message="Quieres eliminar todos los libros de tu libreria?"
+  [buttons]="alertButtons"></ion-alert>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Mi Libreria - {{ allSavedBooks.length }} {{ (allSavedBooks.length == 1) ? 'book' : 'books'
+        }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container" *ngIf="allSavedBooks.length > 0; else noItems">
+    <ion-list lines="none">
+      <div *ngFor="let bookItem of allSavedBooks">
+
+
+        <ion-item-sliding>
+          <ion-item>
+            <ion-card style="width: 100%;" [routerLink]="['detail', bookItem.id]" (click)="sendData(bookItem.id)">
+
+              <ion-grid>
+                <ion-row class="ion-align-items-start">
+                  <ion-col size="auto">
+                    <ion-card-content>
+                      <img src="{{ bookItem.volumeInfo?.imageLinks?.thumbnail }}" />
+                    </ion-card-content>
+                  </ion-col>
+
+                  <ion-col>
+                    <ion-card-header>
+                      <ion-card-title>{{ bookItem.volumeInfo?.title }}</ion-card-title>
+                      <div *ngFor="let author of bookItem.volumeInfo?.authors">
+                        <ion-card-subtitle>{{ author }}</ion-card-subtitle>
+                      </div>
+                      <ion-card-subtitle>{{ bookItem.volumeInfo?.publishedDate }}</ion-card-subtitle>
+                    </ion-card-header>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-card>
+          </ion-item>
+
+          <ion-item-options side="end">
+            <ion-item-option color="danger" (click)="removeFromLibrary(bookItem.id)">
+              <ion-icon id="slide-remove-icon" name="trash"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+
+      </div>
+    </ion-list>
+  </div>
+
+  <ng-template #noItems>
+    <div id="container-library-empty">
+      <ion-icon id="library-icon" name="library-outline"></ion-icon>
+      <h1>Tu libreria esta completamente vacia.</h1>
+      <p>Encuentra nuevos libros y agregalos a tu libreria!</p>
+    </div>
+  </ng-template>
+
+</ion-content>

@@ -1,0 +1,25 @@
+<ion-content [fullscreen]="true">
+  <div class="textoerror">
+    <h1 id="titulo">Error 404</h1>
+    <p>Opcion no encontrada :(</p>
+  </div>
+  <div class="container">
+    <lottie-player
+      slot="end"
+      autoplay
+      loop
+      src="https://lottie.host/3441b20c-d2e6-4493-8c23-b1bc96466c8c/YVw2DLC57c.json"
+    >
+    </lottie-player>
+  </div>
+
+  <div>
+    <p class="textoreferente">
+      La opcion que estabas buscando fue eliminada o se
+      encuentra temporalmente deshabilitada.
+    </p>
+    <ion-button id="button" routerLink="/login" expand="block" shape="round">
+      Volver al inicio
+    </ion-button>
+  </div>
+</ion-content>
